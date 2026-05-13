@@ -71,3 +71,5 @@ class QualityReport {
     return 'QualityReport(siteId: $siteId, dehId: $dehId, name: $name, latitude: $latitude, longitude: $longitude, cityId: $cityId, indicatorId: $indicatorId, regionId: $regionId, description: $description, advisory: $advisory, closure: $closure, active: $active, typeId: $typeId)';
   }
 }
+
+enum Indicator { red, green, yellow, bucket }

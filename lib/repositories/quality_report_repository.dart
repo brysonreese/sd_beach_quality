@@ -26,6 +26,10 @@ class QualityReportRepository with ChangeNotifier {
         final data = jsonDecode(response.body);
         for (var decoded in data) {
           QualityReport report = QualityReport.fromJson(decoded);
+          //skip bucket icons
+          if (report.indicatorId == 4) {
+            continue;
+          }
           if (favoriteIds.contains(report.dehId)) {
             report.favorite = true;
           }
@@ -50,6 +54,10 @@ class QualityReportRepository with ChangeNotifier {
     }
     notifyListeners();
     return _prefs.setStringList(_favoritesKey, updated);
+  }
+
+  QualityReport getBySiteId(int siteId) {
+    return list.firstWhere((element) => element.siteId == siteId);
   }
 
   List<QualityReport> get list => _list;
