@@ -14,9 +14,12 @@ class Shell extends StatelessWidget {
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(color: Colors.blue),
-              child: Text("SD Beach Quality Report"),
+            SizedBox(
+              height: 72,
+              child: const DrawerHeader(
+                decoration: BoxDecoration(color: Colors.blue),
+                child: Text("SD Beach Quality Report"),
+              ),
             ),
             ListTile(
               title: const Text("Home"),
