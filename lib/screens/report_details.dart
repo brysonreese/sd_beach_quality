@@ -42,6 +42,16 @@ class _ReportDetailsState extends State<ReportDetails> {
             ),
             ListTile(
               title: Text(
+                "Status",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              subtitle: Align(
+                alignment: Alignment.centerLeft,
+                child: statusIcons[report.indicatorId - 1],
+              ),
+            ),
+            ListTile(
+              title: Text(
                 "Name",
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
@@ -58,7 +68,33 @@ class _ReportDetailsState extends State<ReportDetails> {
                     : "No Description",
               ),
             ),
-          ],
+            report.advisory != null && report.advisory != ""
+                ? ListTile(
+                    title: Text(
+                      "Advisory",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text(
+                      parse(report.advisory).body != null
+                          ? parse(report.advisory).body!.text
+                          : "No Advisory",
+                    ),
+                  )
+                : null,
+            report.closure != null && report.closure != ""
+                ? ListTile(
+                    title: Text(
+                      "Closure",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text(
+                      parse(report.closure).body != null
+                          ? parse(report.closure).body!.text
+                          : "No Closure",
+                    ),
+                  )
+                : null,
+          ].whereType<Widget>().toList(),
         ),
         ElevatedButton.icon(
           icon: Icon(report.favorite ? Icons.star : Icons.star_border),
