@@ -15,6 +15,12 @@ class _BeachQualityListState extends State<BeachQualityList> {
   QualityReportRepository get qualityReportRepository =>
       getIt<QualityReportRepository>();
 
+  List<Icon> statusIcons = [
+    Icon(Icons.block),
+    Icon(Icons.check_box),
+    Icon(Icons.warning),
+  ];
+
   @override
   void initState() {
     super.initState();
@@ -37,7 +43,7 @@ class _BeachQualityListState extends State<BeachQualityList> {
               cells: <DataCell>[
                 DataCell(Text(report.dehId)),
                 DataCell(Text(report.name)),
-                DataCell(Text(Indicator.values[report.indicatorId - 1].name)),
+                DataCell(statusIcons[report.indicatorId - 1]),
               ],
               onSelectChanged: (value) {
                 context.go('/report/${report.siteId}');
