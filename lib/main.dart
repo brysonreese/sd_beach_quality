@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sd_beach_quality/shell.dart';
+import 'package:sd_beach_quality/router.dart';
 import 'package:sd_beach_quality/locator.dart';
 
 void main() async {
@@ -8,5 +8,5 @@ void main() async {
   setupLocator();
   await getIt.allReady();
 
-  runApp(const MaterialApp(home: Scaffold(body: Shell())));
+  runApp(MaterialApp.router(routerConfig: router));
 }

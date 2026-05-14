@@ -1,23 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:sd_beach_quality/screens/beach_quality_list.dart';
-import 'package:sd_beach_quality/screens/home_screen.dart';
+import 'package:go_router/go_router.dart';
 
-class Shell extends StatefulWidget {
-  const Shell({super.key});
+class Shell extends StatelessWidget {
+  final Widget child;
 
-  @override
-  State<Shell> createState() => _ShellState();
-}
-
-class _ShellState extends State<Shell> {
-  int _currentIndex = 0;
-
-  final _screens = const [HomeScreen(), BeachQualityList()];
-
-  @override
-  void initState() {
-    super.initState();
-  }
+  const Shell({super.key, required this.child});
 
   @override
   Widget build(BuildContext context) {
@@ -33,24 +20,22 @@ class _ShellState extends State<Shell> {
             ),
             ListTile(
               title: const Text("Home"),
-              selected: _currentIndex == 0,
-              onTap: () => setState(() {
-                _currentIndex = 0;
+              onTap: () {
+                context.go('/');
                 Navigator.of(context).pop();
-              }),
+              },
             ),
             ListTile(
               title: const Text("List"),
-              selected: _currentIndex == 1,
-              onTap: () => setState(() {
-                _currentIndex = 1;
+              onTap: () {
+                context.go('/list');
                 Navigator.of(context).pop();
-              }),
+              },
             ),
           ],
         ),
       ),
-      body: IndexedStack(index: _currentIndex, children: _screens),
+      body: child,
     );
   }
 }

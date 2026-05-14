@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sd_beach_quality/locator.dart';
 import 'package:sd_beach_quality/models/quality_report.dart';
 import 'package:sd_beach_quality/repositories/quality_report_repository.dart';
-import 'package:sd_beach_quality/screens/report_details.dart';
 
 class BeachQualityList extends StatefulWidget {
   const BeachQualityList({super.key});
@@ -40,11 +40,7 @@ class _BeachQualityListState extends State<BeachQualityList> {
                 DataCell(Text(Indicator.values[report.indicatorId - 1].name)),
               ],
               onSelectChanged: (value) {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => ReportDetails(siteId: report.siteId),
-                  ),
-                );
+                context.go('/report/${report.siteId}');
               },
             );
           }).toList(),
