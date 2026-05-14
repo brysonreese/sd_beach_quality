@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:html/parser.dart';
 import 'package:sd_beach_quality/locator.dart';
 import 'package:sd_beach_quality/models/quality_report.dart';
@@ -28,6 +29,7 @@ class _ReportDetailsState extends State<ReportDetails> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        IconButton(icon: Icon(Icons.close), onPressed: () => context.pop()),
         ListView(
           shrinkWrap: true,
           children: [

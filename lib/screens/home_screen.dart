@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sd_beach_quality/locator.dart';
-import 'package:sd_beach_quality/models/quality_report.dart';
 import 'package:sd_beach_quality/repositories/quality_report_repository.dart';
+import 'package:sd_beach_quality/models/quality_report.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,12 +14,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   QualityReportRepository get qualityReportRepository =>
       getIt<QualityReportRepository>();
-
-  List<Icon> statusIcons = [
-    Icon(Icons.block),
-    Icon(Icons.check_box),
-    Icon(Icons.warning),
-  ];
 
   @override
   void initState() {
@@ -35,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
     } else {
       return ListenableBuilder(
         listenable: qualityReportRepository,
-        builder: (context, _) {
+        builder: (context, child) {
           return SingleChildScrollView(
             child: SizedBox(
               width: double.infinity,
@@ -56,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           DataCell(statusIcons[report.indicatorId - 1]),
                         ],
                         onSelectChanged: (value) {
-                          context.go('/report/${report.siteId}');
+                          context.push('/report/${report.siteId}');
                         },
                       );
                     })

@@ -15,11 +15,8 @@ class _BeachQualityListState extends State<BeachQualityList> {
   QualityReportRepository get qualityReportRepository =>
       getIt<QualityReportRepository>();
 
-  List<Icon> statusIcons = [
-    Icon(Icons.block),
-    Icon(Icons.check_box),
-    Icon(Icons.warning),
-  ];
+  final _searchController = TextEditingController();
+  String _query = '';
 
   @override
   void initState() {
@@ -27,31 +24,72 @@ class _BeachQualityListState extends State<BeachQualityList> {
   }
 
   @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: SizedBox(
-        width: double.infinity,
-        child: DataTable(
-          showCheckboxColumn: false,
-          columns: const <DataColumn>[
-            DataColumn(label: Expanded(child: Text("DehID"))),
-            DataColumn(label: Expanded(child: Text("Name"))),
-            DataColumn(label: Expanded(child: Text("IndicatorID"))),
-          ],
-          rows: qualityReportRepository.list.map((report) {
-            return DataRow(
-              cells: <DataCell>[
-                DataCell(Text(report.dehId)),
-                DataCell(Text(report.name)),
-                DataCell(statusIcons[report.indicatorId - 1]),
-              ],
-              onSelectChanged: (value) {
-                context.go('/report/${report.siteId}');
-              },
-            );
-          }).toList(),
+    List<QualityReport> filteredReports = qualityReportRepository.list
+        .where(
+          (reports) =>
+              reports.name.toLowerCase().contains(_query.toLowerCase()),
+        )
+        .toList();
+
+    filteredReports.sort((a, b) => a.regionId.compareTo(b.regionId));
+
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: TextField(
+            controller: _searchController,
+            decoration: InputDecoration(
+              hintText: 'Search beaches...',
+              prefixIcon: const Icon(Icons.search),
+              suffixIcon: _query.isEmpty
+                  ? null
+                  : IconButton(
+                      icon: const Icon(Icons.clear),
+                      onPressed: () {
+                        _searchController.clear();
+                        setState(() => _query = '');
+                      },
+                    ),
+            ),
+            onChanged: (value) => setState(() => _query = value),
+          ),
         ),
-      ),
+        Expanded(
+          child: SingleChildScrollView(
+            child: SizedBox(
+              width: double.infinity,
+              child: DataTable(
+                showCheckboxColumn: false,
+                columns: const <DataColumn>[
+                  DataColumn(label: Expanded(child: Text("DehID"))),
+                  DataColumn(label: Expanded(child: Text("Name"))),
+                  DataColumn(label: Expanded(child: Text("IndicatorID"))),
+                ],
+                rows: filteredReports.map((report) {
+                  return DataRow(
+                    cells: <DataCell>[
+                      DataCell(Text(report.dehId)),
+                      DataCell(Text(report.name)),
+                      DataCell(statusIcons[report.indicatorId - 1]),
+                    ],
+                    onSelectChanged: (value) {
+                      context.push('/report/${report.siteId}');
+                    },
+                  );
+                }).toList(),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

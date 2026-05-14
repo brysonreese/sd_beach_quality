@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class QualityReport {
   int siteId;
   String dehId;
@@ -72,4 +74,8 @@ class QualityReport {
   }
 }
 
-enum Indicator { red, green, yellow, bucket }
+List<Icon> statusIcons = [
+  Icon(Icons.block, color: Colors.red),
+  Icon(Icons.check_box, color: Colors.green),
+  Icon(Icons.warning, color: Colors.amber),
+];
